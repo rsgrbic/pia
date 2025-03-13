@@ -1,0 +1,107 @@
+<body>
+<app-dekornav></app-dekornav>
+
+<div class="container">
+  <h1>Neodobrena</h1>
+  <div class="table-responsive">
+  <table class="table">
+      <thead>
+          <tr>
+              <th>Datum Vreme izrade</th>
+              <th>Tip</th>
+              <th>Povrsina</th>
+              <th>Dodatni Zahtevi</th>
+              <th>Kraj Datum</th>
+              <th>Usluge Firme</th>
+              <th>Status</th>
+              <th>Akcije</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let zakazivanje of neOdobrena">
+              <td>{{zakazivanje.datumVreme}}</td>
+              <td *ngIf="zakazivanje.tip==='private'">Privatno</td>
+              <td *ngIf="zakazivanje.tip==='restaurant'">Restoran</td>
+              <td class="center-text">{{zakazivanje.povrsinaBasta.toString()}}</td>
+              <td>{{zakazivanje.dodatniZahtevi}}</td>
+              <td>{{zakazivanje.krajDatum}}</td>
+              <td>
+                  <ul>
+                      <li *ngFor="let usluga of zakazivanje.uslugeFirme">
+                          {{usluga.nazivUsluge}} - {{usluga.cena}} RSD
+                      </li>
+                  </ul>
+              </td>
+              <td>{{zakazivanje.status}}</td>
+              <td><button class="button accept-button" type="button" (click)="acceptJob(zakazivanje)" [disabled]="loggedKorisnik.status=='blokiran'">Prihvati</button></td>
+              <td><button class="button decline-button" type="button" (click)="openDecline(zakazivanje)" [disabled]="loggedKorisnik.status=='blokiran'">Odbij</button></td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+  <h1>Prihvaceni</h1>
+  <div class="table-responsive">
+  <table class="table">
+      <thead>
+          <tr>
+              <th>Datum Vreme izrade</th>
+              <th>Tip</th>
+              <th>Povrsina</th>
+              <th>Dodatni Zahtevi</th>
+              <th>Kraj Datum</th>
+              <th>Usluge Firme</th>
+              <th >Status</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let zakazivanje of prihvaceni">
+              <td>{{zakazivanje.datumVreme}}</td>
+              <td *ngIf="zakazivanje.tip==='private'">Privatno</td>
+              <td *ngIf="zakazivanje.tip==='restaurant'">Restoran</td>
+              <td class="center-text">{{zakazivanje.povrsinaBasta.toString()}}</td>
+              <td>{{zakazivanje.dodatniZahtevi}}</td>
+              <td>{{zakazivanje.krajDatum}}</td>
+              <td>
+                  <ul>
+                      <li *ngFor="let usluga of zakazivanje.uslugeFirme">
+                          {{usluga.nazivUsluge}} - {{usluga.cena}} RSD
+                      </li>
+                  </ul>
+              </td>
+              <td>{{zakazivanje.status}}</td>
+              <td *ngIf="zakazivanje.photoPath">
+                  <img class="image-preview" [src]="'http://localhost:4000/' + zakazivanje.photoPath">
+              </td>
+              <td  *ngIf="danNakon(zakazivanje) && zakazivanje.photoPath=='' && zakazivanje.status=='gotov'">
+                  <button class="button upload-button" (click)="openModal(zakazivanje)">Prilozi sliku</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+  <button class="logout-button" (click)="logout()">Odjavi se</button>
+
+  <div class="modalbackdrop" *ngIf="modalOpen">
+      <div class="modalcontent">
+          <label for="photo">Prilozi sliku:</label>
+          <input id="photo" type="file" (change)="onFileSelected($event)" accept="image/png,image/jpeg"><div>
+          <button class="button submit-button" type="button" (click)="sendPhoto()">Posalji</button>
+          <button class="button cancel-button" type="button" (click)="closeModal()">Zatvori</button></div>
+          <div *ngIf="this.profileImage!=''" >
+          <img class="modal-image" [src]="this.profileImage" alt="Prilozena slika"/>
+      </div>
+      </div>
+      
+  </div>
+
+  <div class="modalbackdrop" *ngIf="decline">
+      <div class="modalcontent">
+          <label for="declineReason">Prilozi komentar uz odbijenicu:</label>
+          <div>
+          <input id="declineReason" name="declineReason" type="text" [(ngModel)]="declineReason"></div>
+          <button class="button submit-button" type="button" (click)="declineJob()">Potvrdi</button>
+          <button class="button cancel-button" type="button" (click)="closeDecline()">Zatvori</button>
+      </div>
+  </div>
+</div>
+</body>

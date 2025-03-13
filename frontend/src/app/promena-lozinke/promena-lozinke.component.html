@@ -1,0 +1,22 @@
+<body>
+<div class="change-password-container">
+    <h2>Promeni lozinku</h2>
+    <h2 class="red">{{this.errorString}}</h2>
+    <form (ngSubmit)="onChangePassword()">
+        <div class="form-group">
+            <label for="oldPassword">Stara lozinka:</label>
+            <input type="password" id="oldPassword" name="oldPassword" [(ngModel)]="oldPassword" required>
+        </div>
+        <div class="form-group">
+            <label for="newPassword">Nova lozinka:</label>
+            <input type="password" id="newPassword" name="newPassword" [(ngModel)]="newPassword" required>
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Potvrdi novu lozinku:</label>
+            <input type="password" id="confirmPassword" name="newPassword2" [(ngModel)]="newPassword2" required>
+        </div>
+        <button type="submit">Promeni lozinku</button>
+    </form>
+    <button type="button" style="background-color:red" (click)="nazad()"> Nazad</button>
+</div>
+</body>

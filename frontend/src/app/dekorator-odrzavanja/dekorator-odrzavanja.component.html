@@ -1,0 +1,110 @@
+<body>
+<app-dekornav></app-dekornav>
+
+<div class="container">
+  <h1>Neodobrena odrzavanja:</h1>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Datum Vreme izrade</th>
+        <th>Datum i vreme zakazivanja</th>
+        <th>Korisnik:</th>
+        <th>Kraj Datum</th>
+        <th>Usluge Firme</th>
+        <th>Status</th>
+        <th style="border: 2px solid white;background-color: white;"></th>
+        <th style="border: 2px solid white;background-color: white;"></th>
+
+      
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let odrzavanje of neOdobrenaOdrzavanja">
+        <td>{{odrzavanje.datumVreme}}</td>
+        <td class="center-text">{{odrzavanje.datumVremeTrenutno}}</td>
+        <td>{{odrzavanje.user}}</td>
+        <td>{{odrzavanje.krajDatum}}</td>
+        <td>
+          <ul class="service-list">
+            <li *ngFor="let usluga of odrzavanje.uslugeFirme">
+              {{usluga.nazivUsluge}} - {{usluga.cena}} RSD
+            </li>
+          </ul>
+        </td>
+        <td>{{odrzavanje.status}}</td>
+        <td><button class="button accept-button" type="button" (click)="openModal(odrzavanje)" [disabled]="loggedKorisnik.status=='blokiran'">Prihvati</button></td>
+        <td><button class="button decline-button" type="button" (click)="openDeclineModal(odrzavanje)" [disabled]="loggedKorisnik.status=='blokiran'">Odbij</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  <h1>Aktivna odrzavanja:</h1>
+  <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Datum Vreme izrade</th>
+        <th>Datum i vreme zakazivanja</th>
+        <th>Korisnik:</th>
+        <th>Kraj Datum</th>
+        <th>Usluge Firme</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let odrzavanje of odobrenaOdrzavanja">
+        <td>{{odrzavanje.datumVreme}}</td>
+        <td class="center-text">{{odrzavanje.datumVremeTrenutno}}</td>
+        <td>{{odrzavanje.user}}</td>
+        <td>{{odrzavanje.krajDatum}}</td>
+        <td>
+          <ul class="service-list">
+            <li *ngFor="let usluga of odrzavanje.uslugeFirme">
+              {{usluga.nazivUsluge}} - {{usluga.cena}} RSD
+            </li>
+          </ul>
+        </td>
+        <td>{{odrzavanje.status}}</td>
+        <td>Aktivno!</td>
+      </tr>
+    </tbody>
+  </table></div>
+<button class="logout-button" (click)="logout()">Odjavi se</button>  
+
+
+
+<div class="modalbackdrop" *ngIf="modalOpen">
+  <div class="modalcontainer">
+    <div class="modalcontent">
+      <h2>Prihvatanje odrzavanja</h2>
+      <div>
+        <h2 class="error-message">{{errorString}}</h2>
+      </div>
+    </div>
+    <div class="modalcontent">
+      <label for="date">Unesi datum kraja radova:</label>
+      <input id="date" type="datetime-local" (change)="checkDate()" [(ngModel)]="endDate"><div>
+      <button class="button submit-button" (click)="acceptOdrzavanje()">Potvrdi</button>
+      <button class="button cancel-button" (click)="closeModal()">Zatvori</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="modalbackdrop" *ngIf="declineModalOpen">
+  <div class="modalcontainer">
+    <h2>Odbijanje odrzavanja</h2>
+
+    <div class="modalcontent">
+      <label for="comment">Unesi razlog odbijanja:</label>
+    </div>
+    <div class="modalcontent">
+      <input id="comment" type="text" [(ngModel)]="declineComment" name="declineComment"><div>
+      <button class="button submit-button" (click)="declineOdrzavanje()">Potvrdi</button>
+      <button class="button cancel-button" (click)="closeDeclineModal()">Zatvori</button></div>
+    </div>
+  </div>
+</div>
+</div>
+</body>

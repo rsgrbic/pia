@@ -1,0 +1,56 @@
+
+<div class="register-container">
+    <h2>Registracija dekoratera</h2>
+    <h2 class="red">{{this.errorString}}</h2>
+    <form (ngSubmit)="onRegister()">
+      <div class="form-group">
+        <label for="username">Korisnicko ime:<span class="red">*</span></label>
+        <input type="text" id="username" name="username" [(ngModel)]="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Lozinka:<span class="red">*</span></label>
+        <input type="text" id="password" name="password" [(ngModel)]="password" required>
+      </div>
+      <div class="form-group">
+        <label for="firstName">Ime:<span class="red">*</span></label>
+        <input type="text" id="firstName" name="firstName" [(ngModel)]="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Prezime:<span class="red">*</span></label>
+        <input type="text" id="lastName" name="lastName" [(ngModel)]="lastName" required>
+      </div>
+      <div class="form-group">
+        <label>Pol:<span class="red">*</span></label>
+        <select [(ngModel)]="gender" name="gender" required>
+          <option value="M">M</option>
+          <option value="Ž">Ž</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="address">Adresa:<span class="red">*</span></label>
+        <input type="text" id="address" name="address" [(ngModel)]="address" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Broj telefona:<span class="red">*</span></label>
+        <input type="tel" id="phone" name="phone" [(ngModel)]="phone" placeholder="+381" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:<span class="red">*</span></label>
+        <input type="email" id="email" name="email" [(ngModel)]="email" required>
+      </div>
+      <div class="form-group">
+        <label for="profileImage">Slika profila:</label>
+        <input type="file" id="profileImage" (change)="onFileSelected($event)" accept="image/png,image/jpeg ">
+        <img *ngIf="profileImage" [src]="getProfileImageUrl()"  style="border:2px solid black;" />
+        <img *ngIf="!profileImage" [src]="getProfileImageUrl()" style="border:2px solid black;"/>
+      </div>
+      <div class="form-group">
+      </div>
+      <div>
+      <span class="red"> *</span><span>Obavezna polja</span>
+      </div>  
+      <button type="submit">Registruj</button>
+    </form>
+    
+    
+  </div>

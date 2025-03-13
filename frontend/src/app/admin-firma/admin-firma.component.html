@@ -1,0 +1,66 @@
+<body style="min-height: 100%;">
+<app-adminnav></app-adminnav>
+  <h2 style="text-align: center;">Registracija nove firme</h2>
+<h3 style="text-align: center;color: red;" >{{errorString}}</h3>
+<form (ngSubmit)="submitForm()" class="form-container">
+  <div class="form-group">
+    <label for="naziv">Naziv:</label>
+    <input type="text" id="naziv" [(ngModel)]="naziv" name="naziv" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="adresa">Adresa:</label>
+    <input type="text" id="adresa" [(ngModel)]="adresa" name="adresa" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="telefon">Kontakt:</label>
+    <input type="text" id="telefon" [(ngModel)]="telefon" name="telefon" placeholder="+381" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="leaveStart">Pocetak godisnjeg odmora:</label>
+    <input type="date" id="leaveStart" [(ngModel)]="leaveStart" name="leaveStart" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="leaveEnd">Kraj godisnjeg odmora:</label>
+    <input type="date" id="leaveEnd" [(ngModel)]="leaveEnd" name="leaveEnd" (change)="datesCheck()" class="form-control">
+  </div>
+
+  <div class="services-container">
+    <div *ngFor="let usluga of usluge; let i = index" class="service-group">
+      <label>Usluga {{ i + 1 }}</label>
+      <input [(ngModel)]="usluga.nazivUsluge" name="uslugaName{{ i }}" placeholder="Naziv usluge" class="form-control">
+      <input [(ngModel)]="usluga.cena" name="uslugaPrice{{ i }}" placeholder="Cena usluge" type="number" min="0" class="form-control">
+      <button type="button" class="remove-button" (click)="removeService(i)">Ukloni</button>
+    </div>
+    <button type="button" class="add-button" (click)="addService()">Dodaj uslugu</button>
+  </div>
+
+  <div class="decorators-container">
+    <div *ngFor="let dekor of dekoratori; let i = index" class="decorator-group">
+      <input [(ngModel)]="dekor.username" name="username{{ i }}" placeholder="Korisnicko ime" class="form-control">
+      <input [(ngModel)]="dekor.password" name="password{{ i }}" placeholder="Lozinka" type="password" class="form-control">
+      <input [(ngModel)]="dekor.name" name="name{{ i }}" placeholder="Ime" class="form-control">
+      <input [(ngModel)]="dekor.lastname" name="lastname{{ i }}" placeholder="Prezime" class="form-control">
+      <select [(ngModel)]="dekor.gender" name="gender{{ i }}" class="form-control">
+        <option value="M">M</option>
+        <option value="Z">Z</option>
+      </select>
+      <input [(ngModel)]="dekor.address" name="address{{ i }}" placeholder="Adresa" class="form-control">
+      <input [(ngModel)]="dekor.phone" name="phone{{ i }}" placeholder="Broj telefona" placeholder="+381" class="form-control">
+      <input [(ngModel)]="dekor.email" name="email{{ i }}" placeholder="Email" class="form-control">
+      <button type="button" class="remove-button" (click)="removeDekor(i)">Ukloni</button>
+    </div>
+    <button type="button" class="add-button" (click)="addDekor()">Dodaj dekoratora</button>
+  </div>
+
+  <button type="submit" class="submit-button">Registruj</button>
+
+  <div class="map-container">
+    <div id="map"></div>
+  </div>
+</form>
+<button class="logout-button" (click)="logout()">Odjavi se</button>
+</body>

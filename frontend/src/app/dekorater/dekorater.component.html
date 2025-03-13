@@ -1,0 +1,49 @@
+<app-dekornav></app-dekornav>
+
+<div class="profile-container">
+    <h2 *ngIf="loggedKorisnik.status=='blokiran'" class="error-message">Blokiran dekorator</h2>
+    <h2>Profil Dekoratora : {{ loggedKorisnik.username }}</h2>
+    <h3 class="error-message">{{ errorString }}</h3>
+    <h3 class="success-message">{{ ackString }}</h3>
+    <div class="profile-image-container">
+        <img [src]="photoPath" alt="Profilna slika" class="profile-pic"/>
+        <label for="photo" class="photo-label">Azuriraj sliku:</label>
+        <input type="file" id="photo" (change)="onFileSelected($event)" accept="image/png,image/jpeg">
+        <div *ngIf="newPhoto" class="new-photo-preview">
+            <img [src]="newPhoto" class="profile-pic"/>
+        </div>
+        <button class="submit-button" (click)="onUpdatePicture()">Azuriraj profilnu sliku</button>
+    </div>
+
+    <div class="profile-details">
+        <div class="form-group">
+            <label for="firstName">Ime:</label>
+            <input type="text" id="firstName" [(ngModel)]="loggedKorisnik.name">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Prezime:</label>
+            <input type="text" id="lastName" [(ngModel)]="loggedKorisnik.lastname">
+        </div>
+        <div class="form-group">
+            <label for="address">Adresa:</label>
+            <input type="text" id="address" [(ngModel)]="loggedKorisnik.address">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" [(ngModel)]="usedMail">
+        </div>
+        <div class="form-group">
+            <label for="phone">Kontakt telefon:</label>
+            <input type="tel" id="phone" [(ngModel)]="loggedKorisnik.phone">
+        </div>
+        <div class="form-group">
+            <label for="firma">Firma:</label>
+            <input type="text" id="firma" [(ngModel)]="loggedKorisnik.firma">
+        </div>
+    </div> 
+
+    <button class="submit-button" (click)="onUpdateProfile()">Azuriraj podatke</button>
+    <button class="logout-button" (click)="logout()">Odjavi se</button>
+    <button class="submit-button" style="background-color: rgb(17, 138, 179);" (click)="promenaLoz()">Promeni lozinku</button>
+</div>
+

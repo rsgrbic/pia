@@ -1,0 +1,51 @@
+<body>
+<app-nav></app-nav>
+<h1 style="text-align: center;">Pretraga firmi</h1>
+<div class="search-section">
+    <label for="naziv">Naziv:</label>
+    <input type="text" id="naziv" [(ngModel)]="naziv">
+    
+    <label for="adresa">Adresa:</label>
+    <input type="text" id="adresa" [(ngModel)]="adresa">
+    
+    <button class="search-button" (click)="pretraga()">Pretrazi</button>
+</div>
+
+<table class="firm-table">
+    <thead>
+        <tr>
+            <th class="headersort" (click)="sortNaziv()">Naziv
+                <span *ngIf="sortNazivBool === false">&#9650;</span>
+                <span *ngIf="sortNazivBool === true">&#9660;</span>
+            </th>
+            <th class="headersort" (click)="sortAdresa()">Adresa
+                <span *ngIf="sortAdresaBool === false">&#9650;</span>
+                <span *ngIf="sortAdresaBool === true">&#9660;</span>
+            </th>
+            <th>Ocena</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="row" *ngFor="let firma of listFirme" (click)="openModal(firma)">
+            <td>{{firma.naziv}}</td>
+            <td>{{firma.adresa}}</td>
+            <td>{{firma.ocena}}
+                <span style="color: yellow;" *ngFor="let star of getStars(firma.ocena)">&#9733;</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<button class="logout-button" style="padding: 10px;color:white ;margin-left: 50px;" (click)="logout()">Odjavi se</button>
+
+<div style="flex: 1;">
+    
+</div>
+<div *ngIf="modalOpen" class="modal-backdrop">
+    <div class="modal-content">
+      <p>Idi na stranicu firme {{selectedFirma.naziv}}</p>
+      <button class="submit-button" (click)="navigate()">Dalje</button>
+      <button class="submit-button" style="background-color: red;" (click)="closeModal()">Ponisti</button>
+    </div>
+</div>
+</body>

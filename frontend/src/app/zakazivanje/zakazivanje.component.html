@@ -1,0 +1,123 @@
+<form (ngSubmit)="onSubmit()" class="form-container">
+  <h3 *ngIf="errorString !== ''" style="color: red;">{{errorString}}</h3>
+  
+  <!-- Step 1: Basic Information -->
+  <div *ngIf="step === 1">
+    <h2>Osnovne informacije:</h2>
+    <div class="form-field">
+      <label>Datum i vreme:</label>
+      <input type="datetime-local" [(ngModel)]="formData.datumVreme" (change)="checkDate()" name="datumVreme" />
+    </div>
+    <div class="form-field">
+      <label>Povrsina baste (m²):</label>
+      <input type="number" [(ngModel)]="formData.povrsinaBasta" min="1" name="povrsinaBasta" />
+    </div>
+    <div class="form-field">
+      <label>Vrsta baste:</label>
+      <select [(ngModel)]="formData.gardenType" name="gardenType" (change)="onGardenTypeChange()">
+        <option value="private">Privatna basta</option>
+        <option value="restaurant">Restoranska basta</option>
+      </select>
+    </div>
+    <button type="button" (click)="nextStep()">Dalje</button>
+  </div>
+
+  <!-- Step 2: Garden Details -->
+  <div *ngIf="step === 2">
+    <h2>Opsirnije informacije</h2>
+    <div *ngIf="isPrivateGarden">
+      <div class="form-field">
+        <label>Povrsina bazena (m²):</label>
+        <input type="number" [(ngModel)]="formData.povrsinaBazen" min="0" name="povrsinaBazen" />
+      </div>
+      <div class="form-field">
+        <label>Povrsina zelenila (m²):</label>
+        <input type="number" [(ngModel)]="formData.povrsinaZelenilo" min="0" name="povrsinaZelenilo" />
+      </div>
+      <div class="form-field">
+        <label>Povrsina sa lezaljkama (m²):</label>
+        <input type="number" [(ngModel)]="formData.povrsinaLoza" min="0" name="povrsinaLoza" />
+      </div>
+    </div>
+    <div *ngIf="!isPrivateGarden">
+      <div class="form-field">
+        <label>Povrsina fontane (m²):</label>
+        <input type="number" [(ngModel)]="formData.povrsinaFontana" min="0" name="povrsinaFontana" />
+      </div>
+      <div class="form-field">
+        <label>Povrsina zelenila (m²):</label>
+        <input type="number" [(ngModel)]="formData.povrsinaZelenilo" min="0" name="povrsinaZelenilo" />
+      </div>
+      <div class="form-field">
+        <label>Broj stolova:</label>
+        <input type="number" [(ngModel)]="formData.stolovi" min="0" name="stolovi" />
+      </div>
+      <div class="form-field">
+        <label>Broj stolica:</label>
+        <input type="number" [(ngModel)]="formData.stolice" min="0" name="stolice" />
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Dodatni zahtevi:</label>
+      <textarea [(ngModel)]="formData.dodatniZahtevi" name="dodatniZahtevi"></textarea>
+    </div>
+    <div *ngFor="let option of options" class="option-row">
+      <span class="service-name">{{option.nazivUsluge}}</span>
+      <span class="price">{{option.cena}} RSD</span>
+      <input type="checkbox" [checked]="formState[option.nazivUsluge]" (change)="toggleCheckbox(option.nazivUsluge)">
+    </div>
+    <button type="button" (click)="prevStep()">Nazad</button>
+    <button type="button" (click)="nextStep()">Dalje</button>
+  </div>
+
+  <!-- Step 3: Garden Drawing -->
+  <div class="canvas-container" *ngIf="step === 3">
+    
+      <app-basta-canvas (changeOblik)="updateOblik($event)"></app-basta-canvas>
+  
+    <button type="button" (click)="prevStep()">Nazad</button>
+    <button type="button" (click)="nextStep()">Dalje</button>
+  </div>
+
+  <!-- Step 4: Review -->
+  <div *ngIf="step === 4">
+    <div style="padding-bottom: 10px;" *ngIf="isPrivateGarden">Uredjivanje privatne baste:</div>
+    <div style="padding-bottom: 10px;" *ngIf="!isPrivateGarden">Uredjivanje restoranske baste:</div>
+    <div class="form-field">
+      <label>Datum izvodjenja radova: {{formData.datumVreme}}</label>
+    </div>
+    <div class="form-field">
+      <label>Povrsina baste: {{formData.povrsinaBasta}}</label>
+    </div>
+    <div class="form-field">
+      <label>Povrsina zelenila: {{formData.povrsinaZelenilo}}</label>
+    </div>
+    <div *ngIf="isPrivateGarden" class="form-field">
+      <label>Povrsina bazena: {{formData.povrsinaBazen}}</label>
+    </div>
+    <div *ngIf="isPrivateGarden" class="form-field">
+      <label>Povrsina dela za lezaljke i stolove: {{formData.povrsinaLoza}}</label>
+    </div>
+    <div *ngIf="!isPrivateGarden" class="form-field">
+      <label>Povrsina fontane: {{formData.povrsinaFontana}}</label>
+    </div>
+    <div *ngIf="!isPrivateGarden" class="form-field">
+      <label>Broj stolica: {{formData.stolice}}</label>
+    </div>
+    <div *ngIf="!isPrivateGarden" class="form-field">
+      <label>Broj stolova: {{formData.stolovi}}</label>
+    </div>
+    <div class="form-field">
+      <label>Dodatni zahtevi: {{formData.dodatniZahtevi}}</label>
+    </div>
+    <div class="form-field">
+      <label>Opcije firme: <span *ngFor="let opt of selectedOptions">{{opt.nazivUsluge}}</span></label>
+    </div>
+    <div class="form-field">
+      <label>Datum kraja radova:</label>
+      <input type="date" (change)="endCheck()" [(ngModel)]="formData.krajDatum" name="krajDatum">
+    </div>
+    <button type="submit">Potvrdi</button>
+    <button type="button" (click)="prevStep()">Nazad</button>
+  </div>
+</form>

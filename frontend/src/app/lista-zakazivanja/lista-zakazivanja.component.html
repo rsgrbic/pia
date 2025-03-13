@@ -1,0 +1,109 @@
+
+<body>
+<app-nav></app-nav>
+<div class="container">
+<h1>Aktivna zakazivanja korisnika {{activeUser}}</h1>
+<div class="table-responsive">
+<table class="table">
+    <thead>
+      <tr>
+        <th>Datum Zakazivanja</th>
+        <th>Datum izrade</th>
+        <th>Naziv firme</th>
+        <th>Usluge Firme</th>
+        <th>Status</th>
+        <th>Opcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let zakazivanje of aktivnaZakazivanja">
+        <td>{{zakazivanje.datumVremeTrenutno}}</td>
+        <td>{{zakazivanje.datumVreme}}</td>
+        <td *ngIf="aktivnoFirme[zakazivanje._id]!=null">{{aktivnoFirme[zakazivanje._id].naziv}}</td>
+        <td>
+          <ul>
+            <li *ngFor="let usluga of zakazivanje.uslugeFirme">
+              {{usluga.nazivUsluge}} - {{usluga.cena}} RSD
+            </li>
+          </ul>
+        </td>
+        <td>{{zakazivanje.status}}</td>
+        <td *ngIf="zakazivanje.status!='aktivan'"><button type="button" (click)="openOtkazivanje(zakazivanje)">Otkazi</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h1>Arhiva zakazivanja korisnika {{activeUser}}</h1>
+<div class="table-responsive">
+<table class="table">
+    <thead>
+      <tr>
+        <th>Datum Vreme izrade</th>
+        <th>Tip</th>
+        <th>Povrsina Basta (m²)</th>
+        <th>Dodatni Zahtevi</th>
+        <th>Kraj Datum</th>
+        <th>Usluge Firme</th>
+        <th>Status</th>
+        <th>Radnje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let zakazivanje of arhivaZakazivanja">
+        <td>{{zakazivanje.datumVreme}}</td>
+        <td *ngIf="zakazivanje.tip==='private'">Privatno</td>
+        <td *ngIf="zakazivanje.tip==='restaurant'">Restoran</td>
+        <td>{{zakazivanje.povrsinaBasta}}</td>
+        <td>{{zakazivanje.dodatniZahtevi}}</td>
+        <td>{{zakazivanje.krajDatum}}</td>
+        <td>
+          <ul>
+            <li *ngFor="let usluga of zakazivanje.uslugeFirme">
+              {{usluga.nazivUsluge}} - {{usluga.cena}} RSD
+            </li>
+          </ul>
+        </td>
+        <td>{{zakazivanje.status}}</td>
+        <td *ngIf="zakazivanje.status==='gotov' && zakazivanje.commentLeft==='false'">
+          <button type="button" (click)="leaveComment(zakazivanje.firma,zakazivanje._id)">Ostavi recenziju</button>
+        </td>
+        <td *ngIf="zakazivanje.status==='gotov' && zakazivanje.commentLeft==='true'">
+          <div class="star" [innerHTML]="arhivaZvezdice[zakazivanje._id]"></div>
+          <div>{{arhivaKom[zakazivanje._id]}}</div>
+        </td>
+        <td *ngIf="zakazivanje.status==='odbijen'">
+          <div>{{zakazivanje.commentDecline}}</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  <button class="logout-button" style="color: white;" (click)="logout()">Odjavi se</button>
+  <div *ngIf="modalOpen" class="modalbackdrop">
+  <div class="modalcontent">
+    <h3>Ostavi komentar firmi</h3>
+    <div>
+      <div class="star-container">
+        <span class="star" (click)="onStarClick(0)" [ngClass]="{ 'filled': ocena > 0 }">&#9733;</span>
+        <span class="star" (click)="onStarClick(1)" [ngClass]="{ 'filled': ocena > 1 }">&#9733;</span>
+        <span class="star" (click)="onStarClick(2)" [ngClass]="{ 'filled': ocena > 2 }">&#9733;</span>
+        <span class="star" (click)="onStarClick(3)" [ngClass]="{ 'filled': ocena > 3 }">&#9733;</span>
+        <span class="star" (click)="onStarClick(4)" [ngClass]="{ 'filled': ocena > 4 }">&#9733;</span>
+      </div>
+      <div><textarea [(ngModel)]="komentar" name="komentar"></textarea></div>
+      <button style="color: white;background-color: red;" (click)="closeModal()">Ponisti</button>
+      <button style="color: white;background-color: #4CAF50;" (click)="prosledi()">Prosledi</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="otkazivanjeModal==true" class="modalbackdrop">
+  <div class="modalcontent">
+    <h3>Da li ste sigurni da zelite da otkazete?</h3>
+    <button type="button" style="background-color: red;" (click)="closeOtkazivanje()">Ponisti</button>
+    <button type="button" (click)="otkazi()">Otkazi</button>
+  </div>
+</div>
+
+</div>
+</body>

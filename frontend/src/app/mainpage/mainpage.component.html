@@ -1,0 +1,77 @@
+<body>
+<div class="row g-3">
+    <div class="col-12"><h1>Vasa masta- Vasa basta</h1></div>
+</div>
+
+
+<div class="row">
+    <div class="col-auto " style="background-color: rgb(228, 186, 132);">
+        <h1 style="text-align: center;">Broj zakazivanja u poslednja 24 casa:<strong style="color: brown;"> {{zakazano24}} </strong></h1>
+        <h3 style="text-align: center;">Broj zakazivanja u poslednjih 7 dana: <strong style="color: brown;"> {{zakazano7}} </strong></h3>
+        <h5 style="text-align: center;">Broj zakazivanja u poslednjih mesec dana: <strong style="color: brown;"> {{zakazano30}} </strong></h5>
+        <h5 style="text-align: center;"> Broj registrovanih vlasnika:<strong style="color:brown"> {{numVlasnici}}</strong> - Broj registrovanih dekoratera: <strong style="color:brown;">{{numDekorateri}}</strong> </h5>
+        <h5 style="text-align: center;">Basta ukraseno: <strong style="color: red;">{{allGotovaZakaz.length}}</strong>!</h5>
+    </div>
+</div>
+
+<div class="container"><hr style="border: 5px solid rgb(147, 76, 168);">
+
+    <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="headersort" (click)="sortNaziv()">Naziv
+                    <span *ngIf="sortNazivBool === false">&#9650;</span>
+                    <span *ngIf="sortNazivBool === true">&#9660;</span>
+                </th>
+                <th class="headersort" (click)="sortAdresa()">Adresa
+                    <span *ngIf="sortAdresaBool === false">&#9650;</span>
+                    <span *ngIf="sortAdresaBool === true">&#9660;</span>
+                </th>
+                <th>Zaposleni</th>
+                
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let firma of allFirme">
+                <td>{{firma.naziv}}</td>
+                <td>{{firma.adresa}}</td>
+                <td>
+                    <ul>
+                        <li *ngFor="let dekor of firmaDekoratori[firma._id]">{{dekor.name}} {{dekor.lastname}}</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="container"><hr style="border: 5px solid rgb(147, 76, 168);">
+<div class="row
+">
+<div class="col-6">
+    <h2 style="text-align: center;">Pretraga firmi</h2>
+    <div class="search">
+        <label for="naziv" style="font-size: large;">Naziv:</label>
+        <input type="text" id="naziv" [(ngModel)]="naziv">
+        <label for="adresa" style="font-size: large;">Adresa:</label>
+        <input type="text" id="adresa" [(ngModel)]="adresa">
+        <button (click)="pretraga()">Pretraži</button>
+    </div>
+
+    <div class="auth-buttons">
+        <button style="background-color: rgb(158, 79, 79);" (click)="login()">Prijavi se</button>
+        <button style="background-color: rgb(66, 116, 156);" (click)="register()">Postani clan</button>
+    </div>
+</div>
+</div></div>
+
+<div class="row g-5" >
+    <div class="col-12" style="margin-top: 10%;"><h2>Nadjite savrsenu firmu za ukrasavanje i odrzavanje vase baste!</h2></div>
+</div>
+</div>
+
+</body>

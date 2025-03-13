@@ -1,0 +1,18 @@
+.navbar {
+    background-color: #333;
+    padding: 10px;
+  }
+  
+  .nav-list {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 10px;
+    padding: 0;
+  }
+  
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+  }

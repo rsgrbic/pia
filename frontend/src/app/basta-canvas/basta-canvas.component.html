@@ -1,0 +1,22 @@
+<div class="bground">
+  <h2>Dizajn baste</h2>
+  <div class="button-group">
+    <button type="button" (click)="onOblikChange('zelenilo')">Zelenilo</button>
+    <button type="button" (click)="onOblikChange('bazen')">Bazen</button>
+    <button type="button" (click)="onOblikChange('fontana')">Fontana</button>
+    <button type="button" (click)="onOblikChange('sto')">Sto</button>
+    <button type="button" (click)="onOblikChange('stolice')">Stolice</button>
+    <button type="button" (click)="ponisti()">Ponisti odabir</button>
+    <button type="button" (click)="undo()">Korak nazad</button>
+    <button type="button" (click)="flipRotation()">Zarotiraj</button>
+  </div>
+
+  <div class="wrapper">
+    <canvas id="bastaCanvas" class="kanvas" width="800" height="600" (click)="onMouseClick($event)" (mousemove)="onMouseMove($event)"></canvas>
+  </div>
+
+  <div class="file-upload">
+    <label for="inputjson">Ili ucitaj JSON fajl:</label>
+    <input type="file" id="inputjson" (change)="onFileSelected($event)" accept=".json">
+  </div>
+</div>

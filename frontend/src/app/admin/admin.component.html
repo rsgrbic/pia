@@ -1,0 +1,194 @@
+<app-adminnav></app-adminnav>
+<div class="container">
+<h1>Registrovani vlasnici:</h1>
+<div class="table-responsive">
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Korisnicko ime</th>
+            <th>Email adresa</th>
+            <th>Ime prezime</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>    
+    <tbody>
+        <tr *ngFor="let vlasnik of registeredVlasnici">
+            <td>{{vlasnik.username}}</td>
+            <td>{{vlasnik.email}}</td>
+            <td>{{vlasnik.name}} {{vlasnik.lastname}}</td>
+            <td>{{vlasnik.status}}</td>
+            <td>
+                <button class="button-edit" (click)="openModalKorisnik(vlasnik)">Izmeni</button>
+                <button *ngIf="vlasnik.status == 'aktivan'" class="button-negative" (click)="deactivate(vlasnik)">Deaktiviraj</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<h1>Registrovani dekoratori:</h1>
+<div class="table-responsive">
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Korisnicko ime</th>
+            <th>Email adresa</th>
+            <th>Ime prezime</th>
+            <th>Firma</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>    
+    <tbody>
+        <tr *ngFor="let dekor of allDekorateri">
+            <td>{{dekor.username}}</td>
+            <td>{{dekor.email}}</td>
+            <td>{{dekor.name}} {{dekor.lastname}}</td>
+            <td>{{dekor.firma}}</td>
+            <td>{{dekor.status}}</td>
+            <td>
+                <button class="button-edit" (click)="openModalDekorator(dekor)">Izmeni</button>
+                <button *ngIf="dekor.status == 'aktivan'" class="button-negative" (click)="deactivate(dekor)">Deaktiviraj</button>
+                <button *ngIf="dekor.status == 'blokiran'" class="button-negative" (click)="unblock(dekor)">Odblokiraj</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<h1>Novi zahtevi za registraciju:</h1>
+<div class="table-responsive">
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Korisnicko ime</th>
+            <th>Email adresa</th>
+            <th>Ime prezime</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>    
+    <tbody>
+        <tr *ngFor="let vlasnik of newVlasnici">
+            <td>{{vlasnik.username}}</td>
+            <td>{{vlasnik.email}}</td>
+            <td>{{vlasnik.name}} {{vlasnik.lastname}}</td>
+            <td>{{vlasnik.status}}</td>
+            <td>
+                <button class="button-edit" (click)="openModalKorisnik(vlasnik)">Izmeni</button>
+                <button class="button-negative" style="background-color:rgb(72, 156, 196)" (click)="unblock(vlasnik)">Odobri</button>
+                <button class="button-negative" (click)="deny(vlasnik)">Odbij</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<h1>Firme:</h1>
+<div class="table-responsive">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id firme</th>
+            <th>Naziv</th>
+            <th>Adresa</th>
+            <th>Telefon</th>
+            <th>Dodaj dekoratora</th>
+        </tr>
+    </thead>    
+    <tbody>
+        <tr *ngFor="let firma of allFirme">
+            <td>{{firma._id}}</td>
+            <td>{{firma.naziv}}</td>
+            <td>{{firma.adresa}}</td>
+            <td>{{firma.telefon}}</td>
+            <td>
+                <button class="button-edit" (click)="openModalFirma(firma)">Dodaj</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<button class="logout-button" (click)="logout()">Odjavi se</button>
+<button class="submit-button" style="background-color: rgb(17, 138, 179);" (click)="promenaLoz()">Promeni lozinku</button>
+
+</div>
+<!-- Modals -->
+<div class="modalm" *ngIf="modalKorisnikBool && selectedUser">
+    <div class="modalcontent">
+        <h3>{{errorString}}</h3>
+        <div class="form-group">
+            <strong>Korisnicko ime: {{selectedUser.username}}</strong>
+        </div>
+        <div class="form-group">
+            <label for="name">Ime</label>
+            <input type="text" id="name" [(ngModel)]="selectedUser.name" name="name" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Prezime</label>
+            <input type="text" id="lastname" [(ngModel)]="selectedUser.lastname" name="lastname" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="address">Adresa</label>
+            <input type="text" id="address" [(ngModel)]="selectedUser.address" name="address" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="phone">Broj telefona</label>
+            <input type="text" id="phone" [(ngModel)]="selectedUser.phone" name="phone" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" [(ngModel)]="selectedUser.email" name="email" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="creditCard">Brojk kreditne kartice</label>
+            <input type="text" id="creditCard" (change)="checkCCNumber()" [(ngModel)]="selectedUser.creditCard" name="creditCard" class="formcontrol">
+        </div>
+        <button type="button" style="background-color: red;" (click)="closeModalKorisnik()">Odustani</button>
+        <button type="button" (click)="updateKorisnik()">Azuriraj</button>
+    </div>
+</div>
+
+<div class="modalm" *ngIf="modalDekoratorBool && selectedUser">
+    <div class="modalcontent">
+        <h3>{{errorString}}</h3>
+        <div class="form-group">
+            <strong>Korisnicko ime: {{selectedUser.username}}</strong>
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" [(ngModel)]="selectedUser.name" name="name" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last Name</label>
+            <input type="text" id="lastname" [(ngModel)]="selectedUser.lastname" name="lastname" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" [(ngModel)]="selectedUser.address" name="address" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" [(ngModel)]="selectedUser.phone" name="phone" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" id="email" [(ngModel)]="selectedUser.email" name="email" class="formcontrol">
+        </div>
+        <div class="form-group">
+            <label for="firma">Firma</label>
+            <input type="text" id="firma" [(ngModel)]="selectedUser.firma" name="firma" class="formcontrol">
+        </div>
+        <button type="button" style="background-color: red;" (click)="closeModalDekorator()">Odustani</button>
+        <button type="button" (click)="updateDekorator()">Azuriraj</button>
+    </div>
+</div>
+
+<div class="modalm" *ngIf="firmaModalBool">
+    <div class="modalcontent">
+        <app-admin-registracija [firma]="selectedFirma._id"></app-admin-registracija>
+        <button type="button" class="xbutton" (click)="firmaModalClose()">X</button>
+    </div>
+</div>

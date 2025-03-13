@@ -1,0 +1,47 @@
+.register-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #130e0e;
+    border-radius: 5px;
+    background-color: bisque;
+  }
+  
+  body{
+    background-color: rgb(243, 196, 138);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .red{
+    color: red;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #5bcf51;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #219617;
+  }
+

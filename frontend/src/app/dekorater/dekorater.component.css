@@ -1,0 +1,123 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.logout-button {
+    background-color: #ff4c4c;
+color:white;
+padding: 10px;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: auto;
+    max-width: 900px;
+}
+
+.profile-details {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.profile-image-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    max-width: 200px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.photo-label {
+    margin-top: 10px;
+    display: block;
+}
+
+.new-photo-preview {
+    margin-top: 10px;
+}
+
+.card-img {
+    width: 100px;
+    height: auto;
+    display: block;
+}
+
+.submit-button, .logout-button {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    background-color: #4b922f;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.logout-button {
+    background-color: #ff4c4c;
+}
+
+.submit-button:hover, .logout-button:hover {
+    background-color: #555;
+}
+
+.error-message {
+    color: red;
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .profile-details {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-container {
+        padding: 10px;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-pic {
+        max-width: 150px;
+    }
+    
+    .card-img {
+        width: 80px;
+    }
+}
