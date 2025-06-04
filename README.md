@@ -1,5 +1,4 @@
 # pia
-Projekat iz programiranja internet aplikacija
-
-Koriscen leaflet za mape, ChartJS, google recaptcha za Frontend.
-Koriscen multer i bcrypt za frontend.
+Project from the course of Internet Apps
+Used leaflet for maps, ChartJS and googleRecaptcha for frontend modules.
+Used Multer and bycrypt for backend functionality.
